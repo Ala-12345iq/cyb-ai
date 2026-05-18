@@ -33,36 +33,19 @@ API_KEY = os.getenv("MY_API_KEY")
 
 try:
     genai.configure(api_key=API_KEY)
-    
-    
-    available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
-    
-
-    model_tujuan = ""
-    for m in available_models:
-        if "gemini-1.5-flash" in m:
-            model_tujuan = m
-            break
-    if not model_tujuan:
-        model_tujuan = available_models[0] 
-
     model = genai.GenerativeModel(
-        model_name=model_tujuan,
-        system_instruction=(
-            "Kamu adalah Tech-Guard AI. Hanya bantu soal teknologi. "
-            "Jika di luar itu, jawab: 'Maaf, saya spesialis teknologi saja.'"
-        )
+        model_name="gemini-1.5-flash",
+        system_instruction="Kamu adalah Tech-Guard AI. Hanya bantu soal teknologi."
     )
     
+    # MASUKKAN INI KE DALAM TRY
     if "chat_session" not in st.session_state:
-       st.session_state.chat_session = model.start_chat(history=[])
-    
+        st.session_state.chat_session = model.start_chat(history=[])
 
-    st.info(f"🚀 AI Aktif menggunakan model: {model_tujuan}")
-
-    
 except Exception as e:
     st.error(f"Gagal memuat API: {e}")
+    st.stop() # Hentikan di sini agar baris 75 tidak jalan
+
 
 
 
