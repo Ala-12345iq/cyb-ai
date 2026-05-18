@@ -29,7 +29,7 @@ st.markdown("""
 
 #load_dotenv()
 
-API_KEY = os.getenv("MY_API_KEY")
+API_KEY = os.getenv("api_key")
 
 try:
     genai.configure(api_key=API_KEY)
