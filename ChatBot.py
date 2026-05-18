@@ -27,7 +27,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-load_dotenv()
+#load_dotenv()
 
 API_KEY = os.getenv("MY_API_KEY")
 
