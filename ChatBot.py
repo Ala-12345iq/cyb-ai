@@ -43,7 +43,7 @@ try:
     # Simpan objek model ke state agar tidak di-recreate setiap user mengetik
     if "gemini_model" not in st.session_state:
         st.session_state.gemini_model = genai.GenerativeModel(
-            model_name="models/gemini-1.5-flash",  # Menggunakan prefiks 'models/' untuk mencegah error 404
+            model_name="models/gemini-2.5-flash",  # Menggunakan prefiks 'models/' untuk mencegah error 404
             system_instruction="Kamu adalah Tech-Guard AI. Hanya bantu soal teknologi. Tolak dengan sopan jika ditanya di luar topik teknologi."
         )
     
