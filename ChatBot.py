@@ -30,7 +30,14 @@ try:
     # Inisialisasi Model Cadangan jika model utama terkena Error 503 (Gemini 1.5)
     if "chat_session_backup" not in st.session_state:
         model_cadangan = genai.GenerativeModel(
-            model_name="models/gemini-1.5-flash",
+            model_name="models/gemini-3.1-flash-lite",
+            system_instruction="Kamu adalah Tech-Guard AI. Hanya bantu soal teknologi."
+        )
+        st.session_state.chat_session_backup = model_cadangan.start_chat(history=[])
+
+     if "chat_session_backup" not in st.session_state:
+        model_cadangan = genai.GenerativeModel(
+            model_name="models/gemini-3.5-flash",
             system_instruction="Kamu adalah Tech-Guard AI. Hanya bantu soal teknologi."
         )
         st.session_state.chat_session_backup = model_cadangan.start_chat(history=[])
