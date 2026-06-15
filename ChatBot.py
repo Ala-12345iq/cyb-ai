@@ -48,26 +48,32 @@ st.title("👾 Cyb AI")
 st.caption("Built with python | powered by gemini 1.5 flash")
 st.caption("spesialis programming & teknologi")
 
-# --- PERBAIKAN DI SINI ---
-# Menggunakan pengecekan yang lebih aman untuk mengambil teks dari komponen parts
+# --- PERBAIKAN 1: Sinkronisasi Tampilan dengan Role API ---
+# Gemini API menyimpan role dengan nama 'user' dan 'model'
 for message in st.session_state.chat_session.history:
-    role = "user" if message.role == "user" else "assistant"
-    with st.chat_message(role):
-        # Ambil text menggunakan atribut .text dari element parts yang ada
-        if message.parts:
+    # Ubah 'model' milik Gemini menjadi 'assistant' agar CSS Streamlit Anda aktif
+    streamlit_role = "user" if message.role == "user" else "assistant"
+    with st.chat_message(streamlit_role):
+        # Cara paling aman mengambil string teks murni dari SDK Gemini terbaru
+        if hasattr(message, "parts") and message.parts:
             st.markdown(message.parts[0].text)
 
+# --- PERBAIKAN 2: Penanganan Alur Kirim Pesan ---
 if prompt := st.chat_input("Tanya soal teknologi/siber..."):
-    # Tampilkan pesan user langsung di layar
+    # Tampilkan chat pengguna secara real-time
     with st.chat_message("user"):
         st.markdown(prompt)
     
     try:
-        # Kirim ke API Gemini
-        response = st.session_state.chat_session.send_message(prompt)
-        # Tampilkan respon AI langsung di layar
+        # Tampilkan animasi loading selagi menunggu server Google merespons
         with st.chat_message("assistant"):
-            st.markdown(response.text)
+            with st.spinner("Cyb AI sedang mengetik..."):
+                response = st.session_state.chat_session.send_message(prompt)
+                st.markdown(response.text)
+                
+        # Memaksa Streamlit untuk menyimpan state dengan benar setelah update history
+        st.rerun()
+                
     except Exception as e:
         st.error("Terjadi masalah pada koneksi Google AI.")
         st.code(str(e))
