@@ -33,7 +33,7 @@ API_KEY = os.getenv("MY_API_KEY")
 try:
     genai.configure(api_key=API_KEY)
     model = genai.GenerativeModel(
-        model_name="gemini-1.5-flash",
+        model_name="models/gemini-1.5-flash",
         system_instruction="Kamu adalah Tech-Guard AI. Hanya bantu soal teknologi. Tolak topik lain dengan sopan."
     )
     
